@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
 import { Entry, Group, lineType } from '../classes/line';
 
 @Component({
@@ -8,20 +7,39 @@ import { Entry, Group, lineType } from '../classes/line';
 	styleUrls: ['./table.component.css']
 })
 export class TableComponent implements OnInit {
-	displayedColumns = ['name', 'quantity', 'unit', 'unitPrice', 'total'];
-
 	list: lineType[] = [new Group('Installation chauffage')];
-	source: MatTableDataSource<lineType> = new MatTableDataSource(this.list);
+
+	printQuantity(line: lineType) {
+		if (line instanceof Entry) return line.quantity;
+		return '';
+	}
+
+	printUnit(line: lineType) {
+		if (line instanceof Entry) return line.unit;
+		return '';
+	}
+
+	printUnitPrice(line: lineType) {
+		if (line instanceof Entry) return line.unitPrice;
+		return '';
+	}
+
+	getChildren(line: lineType): lineType[] {
+		if (line instanceof Group) return line.children;
+		return [];
+	}
+
+	addGroup() {
+		this.list.push(new Group('Nouveau groupe'));
+	}
 
 	//test data
 	ngOnInit() {
 		if (this.list[0] instanceof Group) {
-			this.list[0].children.set('asdf', new Entry('asdf'));
+			this.list[0].children.push(new Group('asdf'));
+			if (this.list[0].children[0] instanceof Group) {
+				this.list[0].children[0].children.push(new Entry('asd'));
+			}
 		}
-		for (let x = 0; x < 10; x++) {
-			this.list.push(new Group(x.toString()));
-		}
-
-		this.source = new MatTableDataSource(this.list);
 	}
 }

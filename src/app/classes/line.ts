@@ -1,6 +1,6 @@
 abstract class Line {
-	name: string = '';
-	total: number = 0;
+	name = '';
+	total = 0;
 }
 
 export type lineType
@@ -8,7 +8,7 @@ export type lineType
 	| Entry
 
 export class Group extends Line {
-	children: Map<string, lineType> = new Map();
+	children: lineType[] = [];
 
 	public constructor(name: string) {
 		super();
@@ -17,9 +17,9 @@ export class Group extends Line {
 }
 
 export class Entry extends Line {
-	quantity: number = 0;
-	unit: string = '';
-	unitPrice: number = 0;
+	quantity = 0;
+	unit = '';
+	unitPrice = 0;
 
 	public constructor(name: string) {
 		super();

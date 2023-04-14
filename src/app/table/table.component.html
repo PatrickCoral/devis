@@ -1,25 +1,36 @@
-<table mat-table [dataSource]="source">
-	<ng-container matColumnDef="name">
-		<th mat-header-cell *matHeaderCellDef> Désignation </th>
-		<td mat-cell *matCellDef="let line"> {{line.name}} </td>
+<table>
+	<tr>
+		<th>Désignation</th>
+		<th>Qté</th>
+		<th>Unité</th>
+		<th>PU</th>
+		<th>Total</th>
+		<th></th>
+	</tr>
+	<ng-container *ngFor="let line of list">
+		<tr>
+			<td> {{line.name}} </td>
+			<td> {{printQuantity(line)}} </td>
+			<td> {{printUnit(line)}} </td>
+			<td> {{printUnitPrice(line)}} </td>
+			<td> {{getChildren(line).length}} </td>
+			<td *ngIf="line instanceof Group"><button>*</button></td>
+		</tr>
+		<ng-container [ngTemplateOutlet]="child" [ngTemplateOutletContext]="{$implicit: line, depth: 1}"></ng-container>
 	</ng-container>
-	<ng-container matColumnDef="quantity">
-		<th mat-header-cell *matHeaderCellDef> Qté </th>
-		<td mat-cell *matCellDef="let line"> {{line.quantity}} </td>
-	</ng-container>
-	<ng-container matColumnDef="unit">
-		<th mat-header-cell *matHeaderCellDef> Unité </th>
-		<td mat-cell *matCellDef="let line"> {{line.unit}} </td>
-	</ng-container>
-	<ng-container matColumnDef="unitPrice">
-		<th mat-header-cell *matHeaderCellDef> PU </th>
-		<td mat-cell *matCellDef="let line"> {{line.unitPrice}} </td>
-	</ng-container>
-	<ng-container matColumnDef="total">
-		<th mat-header-cell *matHeaderCellDef> Total </th>
-		<td mat-cell *matCellDef="let line"> {{line.total}} </td>
-	</ng-container>
-
-	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-	<tr mat-row *matRowDef="let line; columns: displayedColumns;"></tr>
 </table>
+<button (click)="addGroup()">Ajouter un groupe</button>
+
+<ng-template #child let-line let-depth="depth">
+	<ng-container *ngFor="let sub of getChildren(line)">
+		<tr>
+			<td [style.--depth]="depth"> {{sub.name}} </td>
+			<td> {{printQuantity(sub)}} </td>
+			<td> {{printUnit(sub)}} </td>
+			<td> {{printUnitPrice(sub)}} </td>
+			<td> {{getChildren(sub).length}} </td>
+		</tr>
+		<ng-container [ngTemplateOutlet]="child"
+			[ngTemplateOutletContext]="{$implicit: sub, depth: depth+1}"></ng-container>
+	</ng-container>
+</ng-template>

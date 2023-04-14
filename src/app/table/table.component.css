@@ -1,3 +1,19 @@
 .mat-column-name {
     font-weight: bold;
 }
+
+table {
+	width: 100%;
+}
+
+tr {
+	display: grid;
+	grid-template-columns: 4fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+td {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	margin-left: calc(var(--depth) * 1em);
+}

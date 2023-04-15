@@ -1,7 +1,25 @@
-.table-container {
+.main-grid {
     width: 60vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: repeat(2, min-height(100px));
+    margin: auto
+}
+
+.table-container {
+    width: 100%;
+    grid-column: span 3;
+	max-height: 30vh;
+    overflow-y: scroll;
     margin: auto;
+    margin-bottom: 3vh;
 	box-shadow: 3px 3px 1em gray;
+}
+
+.total-container {
+    grid-column: 2/4;
+    box-shadow: 3px 3px 1em gray;
+    padding: 1em;
 }
 
 .topbar {

@@ -19,8 +19,13 @@ td {
 	text-align: end;
 }
 
-.name {
+td > * {
+	font-size: 12pt;
+}
+
+.name, .name > input {
 	text-align: start;
+	border: none;
 }
 
 input {

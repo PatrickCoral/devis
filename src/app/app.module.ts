@@ -6,12 +6,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { TableComponent } from './table/table.component';
 import { MenuComponent } from './menu/menu.component';
+import { TotalComponent } from './total/total.component';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		TableComponent,
-  MenuComponent
+  MenuComponent,
+  TotalComponent
 	],
 	imports: [
 		BrowserModule,

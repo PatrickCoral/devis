@@ -1,6 +1,11 @@
 <div class="topbar">
     <h1>Devis</h1>
 </div>
-<div class="table-container">
-    <app-table/>
+<div class="main-grid">
+    <div class="table-container">
+        <app-table (returnTotal)="updateTotal($event)" />
+    </div>
+    <div class="total-container">
+        <app-total [total]="total"></app-total>
+    </div>
 </div>

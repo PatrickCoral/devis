@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 	title = 'devis';
+	total: number = 0;
+
+	updateTotal(total: number){
+		this.total = total;
+	}
 }

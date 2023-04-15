@@ -1,0 +1,5 @@
+.total {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    text-align: end;
+}

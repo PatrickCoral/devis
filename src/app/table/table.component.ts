@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Entry, Group, lineType } from '../classes/line';
+import { formatNumber } from '@angular/common';
 
 @Component({
 	selector: 'app-table',
@@ -9,8 +10,11 @@ import { Entry, Group, lineType } from '../classes/line';
 export class TableComponent implements OnInit {
 	list: lineType[] = [new Group('Installation chauffage')];
 	displayMenu: boolean = false;
-	menuLine!: lineType ;
+	menuLine!: lineType;
 
+
+	//helpers
+	//getters
 	printQuantity(line: lineType) {
 		if (line instanceof Entry) return line.quantity;
 		return '';

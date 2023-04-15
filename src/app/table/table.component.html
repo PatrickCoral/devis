@@ -8,32 +8,41 @@
 		<th></th>
 	</tr>
 	<ng-container *ngFor="let line of list">
-		<tr>
-			<td> {{line.name}} </td>
-			<td> {{printQuantity(line)}} </td>
-			<td> {{printUnit(line)}} </td>
-			<td> {{printUnitPrice(line)}} </td>
-			<td> {{getChildren(line).length}} </td>
-			<td *ngIf="line instanceof Group"><button (click)="openMenu(line)">*</button></td>
-		</tr>
-		<ng-container [ngTemplateOutlet]="child" [ngTemplateOutletContext]="{$implicit: line, depth: 1}"></ng-container>
+		<ng-container *ngTemplateOutlet="isGroup(line) ? group : entry; context:{$implicit: line, depth: 0}" />
+		<ng-container [ngTemplateOutlet]="child" [ngTemplateOutletContext]="{$implicit: line, depth: 1}" />
 	</ng-container>
 </table>
 <button (click)="addGroup()">Ajouter un groupe</button>
 
+
+<!-- Templates -->
 <ng-template #child let-line let-depth="depth">
 	<ng-container *ngFor="let sub of getChildren(line)">
-		<tr>
-			<td [style.--depth]="depth"> {{sub.name}} </td>
-			<td> {{printQuantity(sub)}} </td>
-			<td> {{printUnit(sub)}} </td>
-			<td> {{printUnitPrice(sub)}} </td>
-			<td> {{getChildren(sub).length}} </td>
-			<td *ngIf="isGroup(sub)"><button (click)="openMenu(sub)">*</button></td>
-		</tr>
-		<ng-container [ngTemplateOutlet]="child"
-			[ngTemplateOutletContext]="{$implicit: sub, depth: depth+1}"></ng-container>
+		<ng-container *ngTemplateOutlet="isGroup(sub) ? group : entry; context:{$implicit: sub, depth: depth}" />
+		<ng-container [ngTemplateOutlet]="child" [ngTemplateOutletContext]="{$implicit: sub, depth: depth+1}" />
 	</ng-container>
+</ng-template>
+
+<ng-template #entry let-entry let-depth="depth">
+	<tr>
+		<td [style.--depth]="depth" class="name"> <input type="text" [value]="entry.name"> </td>
+		<td> <input type="text" [value]="printQuantity(entry)"> </td>
+		<td> <input type="text" [value]="printUnit(entry)"> </td>
+		<td> <input type="text" [value]="printUnitPrice(entry)"> </td>
+		<td> <input type="text" [value]="entry.total"> </td>
+		<td></td>
+	</tr>
+</ng-template>
+
+<ng-template #group let-group let-depth="depth">
+	<tr>
+		<td [style.--depth]="depth" class="name"> {{group.name}} </td>
+		<td> {{printQuantity(group)}} </td>
+		<td> {{printUnit(group)}} </td>
+		<td> {{printUnitPrice(group)}} </td>
+		<td> {{group.total}} </td>
+		<td><button (click)="openMenu(group)">*</button></td>
+	</tr>
 </ng-template>
 
 <app-menu *ngIf="displayMenu" [line]="menuLine" (close)="closeMenu($event)" />

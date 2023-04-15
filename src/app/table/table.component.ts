@@ -8,6 +8,8 @@ import { Entry, Group, lineType } from '../classes/line';
 })
 export class TableComponent implements OnInit {
 	list: lineType[] = [new Group('Installation chauffage')];
+	displayMenu: boolean = false;
+	menuLine!: lineType ;
 
 	printQuantity(line: lineType) {
 		if (line instanceof Entry) return line.quantity;
@@ -29,8 +31,21 @@ export class TableComponent implements OnInit {
 		return [];
 	}
 
+	isGroup(line: lineType): line is Group {
+		return line instanceof Group;
+	}
+
 	addGroup() {
 		this.list.push(new Group('Nouveau groupe'));
+	}
+
+	openMenu(line: lineType) {
+		this.displayMenu = true;
+		this.menuLine = line;
+	}
+
+	closeMenu(open: boolean) {
+		this.displayMenu = open;
 	}
 
 	//test data

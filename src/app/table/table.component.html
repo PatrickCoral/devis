@@ -14,7 +14,7 @@
 			<td> {{printUnit(line)}} </td>
 			<td> {{printUnitPrice(line)}} </td>
 			<td> {{getChildren(line).length}} </td>
-			<td *ngIf="line instanceof Group"><button>*</button></td>
+			<td *ngIf="line instanceof Group"><button (click)="openMenu(line)">*</button></td>
 		</tr>
 		<ng-container [ngTemplateOutlet]="child" [ngTemplateOutletContext]="{$implicit: line, depth: 1}"></ng-container>
 	</ng-container>
@@ -29,8 +29,11 @@
 			<td> {{printUnit(sub)}} </td>
 			<td> {{printUnitPrice(sub)}} </td>
 			<td> {{getChildren(sub).length}} </td>
+			<td *ngIf="isGroup(sub)"><button (click)="openMenu(sub)">*</button></td>
 		</tr>
 		<ng-container [ngTemplateOutlet]="child"
 			[ngTemplateOutletContext]="{$implicit: sub, depth: depth+1}"></ng-container>
 	</ng-container>
 </ng-template>
+
+<app-menu *ngIf="displayMenu" [line]="menuLine" (close)="closeMenu($event)" />

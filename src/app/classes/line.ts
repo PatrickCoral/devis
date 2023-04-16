@@ -1,6 +1,7 @@
 abstract class Line {
 	name = '';
 	total = 0;
+	hidden = false;
 }
 
 export type lineType

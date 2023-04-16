@@ -84,6 +84,22 @@ export class TableComponent {
 		return sum;
 	}
 
+	toggleChildren(group: Group, hidden?: boolean) {
+		group.children.forEach(g => {
+			let next = hidden ?? !g.hidden;
+			g.hidden = next;
+			if (g instanceof Group) {
+				this.toggleChildren(g, next);
+			}
+		})
+
+	}
+
+	getToggled(group: Group): boolean {
+		if (group.children.length > 0) return group.children[0].hidden;
+		return true;
+	}
+
 	addGroup() {
 		this.list.push(new Group('Nouveau groupe'));
 	}

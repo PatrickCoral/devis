@@ -1,3 +1,6 @@
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
 <table>
 	<tr>
 		<th>Désignation</th>
@@ -12,7 +15,7 @@
 		<ng-container [ngTemplateOutlet]="child" [ngTemplateOutletContext]="{$implicit: line, depth: 1}" />
 	</ng-container>
 </table>
-<button (click)="addGroup()">Ajouter un groupe</button>
+<button class="group-button" (click)="addGroup()">Ajouter un groupe</button>
 
 
 <!-- Templates -->
@@ -24,24 +27,35 @@
 </ng-template>
 
 <ng-template #entry let-entry let-depth="depth">
-	<tr>
+	<tr [ngClass]="entry.hidden ? 'hidden' : ''">
 		<td [style.--depth]="depth" class="name"> <input type="text" [(value)]="entry.name"> </td>
-		<td> <input type="text" [value]="printQuantity(entry)" (input)="updateQuantity(entry, $event)" (focusout)="updateEntry(entry)"> </td>
+		<td> <input type="text" [value]="printQuantity(entry)" (input)="updateQuantity(entry, $event)"
+				(focusout)="updateEntry(entry)">
+		</td>
 		<td> <input type="text" [value]="printUnit(entry)" (input)="updateUnit(entry, $event)"> </td>
-		<td> <input type="text" [value]="printUnitPrice(entry)" (input)="updateUnitPrice(entry, $event)" (focusout)="updateEntry(entry)"> </td>
+		<td> <input type="text" [value]="printUnitPrice(entry)" (input)="updateUnitPrice(entry, $event)"
+				(focusout)="updateEntry(entry)">
+		</td>
 		<td style="color:gray"> {{entry.total.toFixed(2)}} </td>
 		<td></td>
 	</tr>
 </ng-template>
 
 <ng-template #group let-group let-depth="depth">
-	<tr>
-		<td [style.--depth]="depth" class="name"> <input type="text" [(value)]="group.name"> </td>
+	<tr [ngClass]="group.hidden ? 'hidden' : ''">
+		<td [style.--depth]="depth" class="name"> <button class="toggle-button"
+				[ngClass]="getToggled(group) ? '' : 'toggled'" (click)="toggleChildren(group)">></button> <input
+				type="text" [(value)]="group.name"> </td>
 		<td> {{printQuantity(group)}} </td>
 		<td> {{printUnit(group)}} </td>
 		<td> {{printUnitPrice(group)}} </td>
 		<td> {{group.total.toFixed(2)}} </td>
-		<td><button (click)="openMenu(group)">*</button></td>
+		<td><button (click)="openMenu(group)" class="menu-button">
+				<span class="material-symbols-outlined">
+					menu
+				</span>
+			</button>
+		</td>
 	</tr>
 </ng-template>
 
